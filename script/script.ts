@@ -1,25 +1,23 @@
 const baudrates = 921600;
-const clearButton = document.getElementById("botLimpar");
-const consoleBaudrates = document.getElementById("baudRate");
-const connectButton = document.getElementById("botConectar");
-const resetButton = document.getElementById("botReset");
-const eraseButton = document.getElementById("botApagar");
-const consoleStartButton = document.getElementById("botStartTerminal");
-const programButton = document.getElementById("botUpload");
+const consoleBaudrates = document.getElementById("baudRate") as HTMLSelectElement;
+const clearButton = document.getElementById("botLimpar") as HTMLButtonElement;
+const connectButton = document.getElementById("botConectar") as HTMLButtonElement;
+const resetButton = document.getElementById("botReset") as HTMLButtonElement;
+const eraseButton = document.getElementById("botApagar") as HTMLButtonElement;
+const consoleStartButton = document.getElementById("botStartTerminal") as HTMLButtonElement;
+const programButton = document.getElementById("botUpload");as HTMLButtonElement;
 const terminal = document.getElementById("monitor");
-const logo = document.getElementById("logo");
-const addFileButton = document.getElementById("addFile");
-const variacoes = [":)", ";)"];
-const chipID = document.getElementById("chipID");
+const addFileButton = document.getElementById("addFile") as HTMLButtonElement;
+const chipID = document.getElementById("chipID") as HTMLDivElement;
 
-const table = document.getElementById("fileTable");
+const table = document.getElementById("fileTable") as HTMLTableElement;
 
 import { ESPLoader, FlashOptions, LoaderOptions, Transport } from "https://unpkg.com/esptool-js/lib/index.js";
 import { serial } from "web-serial-polyfill";
 if (!navigator.serial && navigator.usb) navigator.serial = serial;
 
-let Terminal; // Terminal is imported in HTML script
-let CryptoJS; // CryptoJS is imported in HTML script
+declare let Terminal; // Terminal is imported in HTML script
+declare let CryptoJS; // CryptoJS is imported in HTML script
 
 const term = new Terminal({ cols: 159, rows: 41 });
 term.open(terminal);
@@ -28,7 +26,8 @@ let device = null;
 let transport: Transport;
 let chip: string = null;
 let esploader: ESPLoader;
-let indiceVariacoes = 0;
+let connected = false;
+
 
 /**
  * The built in Event object.
@@ -72,7 +71,9 @@ function errorMsg(text) {
 }
 
 connectButton.onclick = async () => {
-    if (conectadoUI) {
+    if (connected) {
+        connected = false;
+        conectadoUI();
         if (transport) await transport.disconnect();
         cleanUp();
     }
@@ -92,11 +93,12 @@ connectButton.onclick = async () => {
             esploader = new ESPLoader(flashOptions);
 
             chip = await esploader.main();
-
-            conectadoUI(true);
+            connected = true;
+            conectadoUI();
         } catch (e) {
             errorMsg(e);
-            conectadoUI(false);
+            connected = false;
+            conectadoUI();
         }
 
         console.log("Configurações finalizadas no " + chip);
@@ -164,15 +166,26 @@ addFileButton.onclick = () => {
         element4.setAttribute("class", "btn");
         element4.setAttribute("value", "Remove"); // or element1.value = "button";
         element4.onclick = function () {
+            removeRow(row);
         };
         cell4.appendChild(element4);
     }
 };
 
-setInterval(() => {
-    logo.innerHTML = variacoes[indiceVariacoes];
-    indiceVariacoes = (indiceVariacoes + 1) % variacoes.length;
-}, 1000);
+/**
+ * The built in HTMLTableRowElement object.
+ * @external HTMLTableRowElement
+ * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableRowElement}
+ */
+
+/**
+ * Remove file row from HTML Table
+ * @param {HTMLTableRowElement} row Table row element to remove
+ */
+function removeRow(row: HTMLTableRowElement) {
+    const rowIndex = Array.from(table.rows).indexOf(row);
+    table.deleteRow(rowIndex);
+}
 
 /**
  * Clean devices variables on chip disconnect. Remove stale references if any.
@@ -183,15 +196,13 @@ function cleanUp() {
     chip = null;
 }
 
-function conectadoUI(connected) {
+function conectadoUI() {
     let lbl = "Conectar ESP";
     if (connected) {
         lbl = "Desconectar ESP";
     }
-    botConectar.innerHTML = lbl;
+    connectButton.innerHTML = lbl;
 }
-
-
 
 let isConsoleClosed = false;
 consoleStartButton.onclick = async () => {
@@ -247,11 +258,11 @@ function validateProgramInputs() {
 }
 
 programButton.onclick = async () => {
-    const alertMsg = document.getElementById("alertmsg");
     const err = validateProgramInputs();
 
     if (err != "success") {
-        alertMsg.innerHTML = "<strong>" + err + "</strong>";
+        const alertMsg = "<strong>" + err + "</strong>";
+        errorMsg(alertMsg);
         return;
     }
 

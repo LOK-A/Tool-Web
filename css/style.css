@@ -1,16 +1,17 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap');
 
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-    font-family: 'Open Sans', sans-serif;
+    font-family: "Nanum Gothic", sans-serif;
 }
 
 body {
-    background: #000000;
+    background: rgba(75, 0, 0);
+    font-weight: 400;
+    font-style: normal;
     font-size: 16px;
-    width: 100%;
+    width: 100vw;
     height: 100vh;
     display: flex;
     align-items: center;
@@ -18,9 +19,11 @@ body {
 }
 
 .titulo {
+    font-weight: 800;
     color: #ffffff;
-    font-size: 25px;
+    font-size: calc(1em + 0.5vw);
     margin: 15px;
+    text-shadow: #000000 0px 0px 25px;
 }
 
 .main {
@@ -33,37 +36,42 @@ body {
 }
 
 .menu {
+    width: 100%;
     margin-top: 0px;
     margin-bottom: 30px;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     flex-direction: row;
+    padding: 0 15px;
 }
 
 .botoes {
-    height: 30px;
-    width: 140px;
+    height: 140%;
+    width: 8.5vw;
     color: #ffffff;
-    margin-inline: 20px;
-    background-color: rgba(0, 0, 0, 0.75);
-    box-shadow: 0px 0px 15px #ffffff;
+    background-color: rgb(0, 0, 0);
     border: solid 1px #fff;
     border-radius: 10px;
     cursor: pointer;
-    transition: 0.2s;
     text-align: center;
+    font-weight: 400;
+    font-style: normal;
+    font-size: calc(0.7em + 0.2vw);
+}
+
+#baudRate option {
+    color: #ff0000;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: solid 1px #fff;
 }
 
 .botoes:hover {
     transform: scale(1.05);
-    box-shadow: 0px 0px 20px #ffffff;
 }
 
 .botoes:active {
-    box-shadow: 0px 0px 25px #ff0000;
-    border: solid 1px #ff0000;
+    box-shadow: 0px 0px 20px #ffffff;
 }
-
 
 .log {
     border: solid 1px #fff;
@@ -72,47 +80,54 @@ body {
     background-color: #000000;
     color: #fff;
     border-radius: 10px;
-    background-color: rgba(0, 0, 0, 0.75);
-    box-shadow: 0px 0px 15px #ffffff;
-    font-family: pt-mono, monospace;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
+    background-color: rgba(0, 0, 0);
+    box-shadow: 0px 0px 10px #ffffff;
     overflow-x: hidden;
     overflow-x: auto;
     transition: color 0.1s linear;
-    transition: height 0.5s;
-    padding: 0 30px;
+    transition: 0.5s;
+    padding: 0 15px;
     -ms-overflow-style: none;
     scrollbar-width: none;
+    font-weight: 400;
+    font-size: calc(0.7em + 0.2vw);
+    font-style: normal;
+    font-size: auto;
 }
 
 .rodape {
-    margin-top: 10px;
-    margin-bottom: 5px;
     width: 100%;
+    margin-top: 15px;
+    margin-bottom: 12px;
+    color: #ffffff;
+    bottom: 15px;
+    font-size: calc(0.5em + 0.5vw);
     display: flex;
     justify-content: space-between;
     flex-direction: row;
-    color: #fff;
-    bottom: 15px;
+    padding: 0 15px;
+}
+
+.rodape>div {
+    width: 30vw;
 }
 
 .chipID {
-    width: 100%;
+    width: 30vw;
     text-align: left;
 }
 
 .autor {
-    width: 100%;
+    width: 30vw;
     text-align: center;
 }
 
 .logo {
-    width: 100%;
+    width: 30vw;
     text-align: right;
+    font-weight: 700;
 }
 
 .error-message {
-    color: #c64141;
+    color: #ff0000;
 }
