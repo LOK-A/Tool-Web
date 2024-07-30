@@ -1,5 +1,5 @@
-const butClear = document.getElementById("botLimpar");
 const baudrates = 921600;
+const clearButton = document.getElementById("botLimpar");
 const consoleBaudrates = document.getElementById("baudRate");
 const connectButton = document.getElementById("botConectar");
 const resetButton = document.getElementById("botReset");
@@ -62,6 +62,11 @@ const espLoaderTerminal = {
     },
 };
 
+function errorMsg(text) {
+    term.writeln('<span class="error-message">Erro:</span> ' + text);
+    console.error(text);
+}
+
 connectButton.onclick = async () => {
     if (conectadoUI) {
         if (transport) await transport.disconnect();
@@ -114,6 +119,10 @@ eraseButton.onclick = async () => {
     }
 };
 
+clearButton.onclick = async () => {
+    term.reset();
+};
+
 addFileButton.onclick = () => {
     const rowCount = table.rows.length;
     const row = table.insertRow(rowCount);
@@ -156,6 +165,10 @@ addFileButton.onclick = () => {
     }
 };
 
+setInterval(() => {
+    logo.innerHTML = variacoes[indiceVariacoes];
+    indiceVariacoes = (indiceVariacoes + 1) % variacoes.length;
+}, 1000);
 
 /**
  * Clean devices variables on chip disconnect. Remove stale references if any.
@@ -165,6 +178,15 @@ function cleanUp() {
     transport = null;
     chip = null;
 }
+
+function conectadoUI(connected) {
+    let lbl = "Conectar ESP";
+    if (connected) {
+        lbl = "Desconectar ESP";
+    }
+    botConectar.innerHTML = lbl;
+}
+
 
 
 let isConsoleClosed = false;
@@ -269,25 +291,3 @@ programButton.onclick = async () => {
 };
 
 addFileButton.onclick(this);
-
-butClear.onclick = async () => {
-    term.reset();
-};
-
-function errorMsg(text) {
-    term.writeln('<span class="error-message">Erro:</span> ' + text);
-    console.error(text);
-}
-
-function conectadoUI(connected) {
-    let lbl = "Conectar ESP";
-    if (connected) {
-        lbl = "Desconectar ESP";
-    }
-    botConectar.innerHTML = lbl;
-}
-
-setInterval(() => {
-    logo.innerHTML = variacoes[indiceVariacoes];
-    indiceVariacoes = (indiceVariacoes + 1) % variacoes.length;
-}, 1000);
