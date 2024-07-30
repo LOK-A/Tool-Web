@@ -14,8 +14,8 @@ const chipID = document.getElementById("chipID");
 
 const table = document.getElementById("fileTable");
 
-declare let Terminal; // Terminal is imported in HTML script
-declare let CryptoJS; // CryptoJS is imported in HTML script
+let Terminal; // Terminal is imported in HTML script
+let CryptoJS; // CryptoJS is imported in HTML script
 
 const term = new Terminal({ cols: 159, rows: 41 });
 term.open(terminal);
