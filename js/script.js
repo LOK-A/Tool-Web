@@ -14,8 +14,12 @@ const chipID = document.getElementById("chipID");
 
 const table = document.getElementById("fileTable");
 
-let Terminal; // Terminal is imported in HTML script
-let CryptoJS; // CryptoJS is imported in HTML script
+import { ESPLoader, FlashOptions, LoaderOptions, Transport } from "../../../lib";
+import { serial } from "web-serial-polyfill";
+if (!navigator.serial && navigator.usb) navigator.serial = serial;
+
+declare let Terminal; // Terminal is imported in HTML script
+declare let CryptoJS; // CryptoJS is imported in HTML script
 
 const term = new Terminal({ cols: 159, rows: 41 });
 term.open(terminal);
