@@ -21,12 +21,12 @@ declare let CryptoJS; // CryptoJS is imported in HTML script
 const term = new Terminal({ cols: 159, rows: 41 });
 term.open(terminal);
 
-
 let device = null;
 let transport: Transport;
 let chip: string = null;
 let esploader: ESPLoader;
 let connected = false;
+let Baudrates.value = 921600;
 
 
 /**
@@ -86,8 +86,9 @@ connectButton.onclick = async () => {
 
         try {
             const flashOptions = {
+
                 transport,
-                baudrate: parseInt(consoleBaudrates.value),
+                baudrate: parseInt(Baudrates.value),
                 terminal: espLoaderTerminal,
             } as LoaderOptions;
             esploader = new ESPLoader(flashOptions);
