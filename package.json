@@ -6,6 +6,8 @@
     "main": "index.html",
     "license": "MIT",
     "scripts": {
+        "build": "npm run clean && tsc && rollup --config",
+        "clean": "rimraf lib bundle.js .parcel-cache esptool-js-*.tgz",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": {
