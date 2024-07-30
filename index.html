@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <title>Tool_Web</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+
+    <script module>
+        window.esptoolPackage = import("/esptool-js/web/index.js");
+    </script>
+    <script src="js/script.js" module defer></script>
+</head>
+
+<body>
+    <header class="titulo">
+        <h1>Tool Web :)</h1>
+    </header>
+
+    <main class="main">
+        <div class="menu">
+            <select class="botoes" id="baudRate"></select>
+            <button class="botoes" id="butConnect" type="button">Conectar ESP</button>
+            <button class="botoes" id="butErase" type="button">Apagar memória</button>
+            <button class="botoes" id="butUpload" type="button">Gravar firmware</button>
+            <button class="botoes" id="butReset" type="button">Reiniciar ESP</button>
+            <button class="botoes" id="butClear" type="button">Limpar terminal</button>
+            <button class="botoes" id="butScroll" type="button">Autoscroll</button>
+        </div>
+
+        <div class="log" id="monitor"></div>
+    </main>
+
+    <footer class="rodape">
+        Feito por LOK4V1D4 por diversão :)
+    </footer>
+</body>
+
+</html>
