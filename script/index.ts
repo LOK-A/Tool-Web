@@ -12,7 +12,7 @@ const chipID = document.getElementById("chipID") as HTMLDivElement;
 
 const table = document.getElementById("fileTable") as HTMLTableElement;
 
-import { ESPLoader, FlashOptions, LoaderOptions, Transport } from "https://unpkg.com/esptool-js/lib/index.js";
+import { ESPLoader, FlashOptions, LoaderOptions, Transport } from "https://unpkg.com/esptool-js@0.2.0/bundle.js";
 import { serial } from "web-serial-polyfill";
 if (!navigator.serial && navigator.usb) navigator.serial = serial;
 
