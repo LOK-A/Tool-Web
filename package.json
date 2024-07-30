@@ -3,7 +3,7 @@
     "author": "LOK4V1D4",
     "version": "0.9.0",
     "description": "Ferramentas para Chips da Espressif",
-    "main": "src/index.html",
+    "main": "index.html",
     "license": "MIT",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
