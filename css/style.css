@@ -23,10 +23,18 @@ body {
     margin: 15px;
 }
 
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 90%;
+    height: 100%;
+}
+
 .menu {
     margin-top: 0px;
     margin-bottom: 30px;
-    max-width: 1600px;
     display: flex;
     justify-content: space-around;
     flex-direction: row;
@@ -59,7 +67,7 @@ body {
 
 .log {
     border: solid 1px #fff;
-    height: 80vh;
+    height: 100%;
     width: 100%;
     background-color: #000000;
     color: #fff;
@@ -80,10 +88,29 @@ body {
 }
 
 .rodape {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
     color: #fff;
-    position: absolute;
-    bottom: 10px;
+    bottom: 15px;
+}
+
+.chipID {
+    width: 100%;
+    text-align: left;
+}
+
+.autor {
+    width: 100%;
     text-align: center;
+}
+
+.logo {
+    width: 100%;
+    text-align: right;
 }
 
 .error-message {
