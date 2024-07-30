@@ -3,11 +3,13 @@
     "author": "LOK4V1D4",
     "version": "0.9.0",
     "description": "Ferramentas para Chips da Espressif",
-    "main": "index.html",
+    "source": "src/index.html",
     "license": "MIT",
     "scripts": {
-        "build": "npm run clean && tsc && rollup --config",
-        "clean": "rimraf lib bundle.js .parcel-cache esptool-js-*.tgz",
+        "genDocs": "cd ../.. && npm run genDocs && mkdir -p dist && cp -r docs dist",
+        "dev": "npm run clean && npm run genDocs && parcel src/index.html",
+        "build": "npm run clean && parcel build src/index.html --no-optimize --public-url ./",
+        "clean": "rimraf dist .parcel-cache",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": {

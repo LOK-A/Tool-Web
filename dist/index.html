@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <title>ESPTooL WEB</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.7ac7d534.css">
+    <script type="module" src="index.runtime.8c7fda14.js"></script><script src="https://cdn.jsdelivr.net/npm/xterm@4.19.0/lib/xterm.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/crypto-js@4.1.1/crypto-js.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <header class="titulo">
+        <h1>ESPTooL WEB</h1>
+    </header>
+
+    <main class="main">
+        <div class="menu">
+            <select class="botoes" id="baud">
+                <option class="lista" value="9600">9600</option>
+                <option class="lista" value="19200">19200</option>
+                <option class="lista" value="38400">38400</option>
+                <option class="lista" value="57600">57600</option>
+                <option class="lista" value="74880">74880</option>
+                <option class="lista" value="115200" selected="">115200</option>
+                <option class="lista" value="230400">230400</option>
+                <option class="lista" value="460800">460800</option>
+                <option class="lista" value="921600">921600</option>
+            </select>
+            <input class="botoes" id="botConectar" type="button" value="Conectar ESP">
+            <input class="botoes" id="botApagar" type="button" value="Apagar memória">
+            <input class="botoes" id="botUpload" type="button" value="Gravar firmware">
+            <input class="botoes" id="botReset" type="button" value="Reiniciar ESP">
+            <input class="botoes" id="botStartTerminal" type="button" value="Iniciar Terminal">
+            <input class="botoes" id="botLimpar" type="button" value="Limpar terminal">
+            <input class="botoes" id="addFile" type="button" value="addFile">
+        </div>
+
+        <div class="log" id="monitor"></div>
+        <div class="rodape">
+            <div class="centro">
+                <label class="chipID" id="chipID"></label>
+            </div>
+            <div class="autor" id="autor">Feito por <strong>LOK4V1D4<strong></strong></strong></div>
+            <div class="logo" id="logo">:)</div>
+        </div>
+        
+    </main>
+    <script src="index.e799ec99.js" type="module"></script>
+    <script>var isSafari = /constructor/i.test(window.HTMLElement) || function(p) {
+    return p.toString() === "[object SafariRemoteNotification]";
+}(!window["safari"] || typeof safari !== "undefined" && window["safari"].pushNotification);
+if (isSafari) {
+    document.getElementById("safariErr").style.display = "inline";
+    document.getElementById("main").style.display = "none";
+}
+
+</script>
+    <script>const variacoes = [
+    ":)",
+    ":)",
+    ";)",
+    ":)",
+    ":)",
+    ":P",
+    ":)",
+    ":)"
+];
+let indice = 0;
+setInterval(()=>{
+    document.getElementById("logo").innerText = variacoes[indice];
+    indice = (indice + 1) % variacoes.length;
+}, 1000);
+
+</script>
+</body>
+
+</html>
