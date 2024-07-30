@@ -21,6 +21,7 @@ declare let CryptoJS; // CryptoJS is imported in HTML script
 const term = new Terminal({ cols: 159, rows: 41 });
 term.open(terminal);
 
+
 let device = null;
 let transport: Transport;
 let chip: string = null;
