@@ -1,5 +1,4 @@
-const baudrates = 921600;
-const consoleBaudrates = document.getElementById("baudRate") as HTMLSelectElement;
+const consoleBaudrates = document.getElementById("baud") as HTMLSelectElement;
 const clearButton = document.getElementById("botLimpar") as HTMLButtonElement;
 const connectButton = document.getElementById("botConectar") as HTMLButtonElement;
 const resetButton = document.getElementById("botReset") as HTMLButtonElement;
@@ -87,7 +86,7 @@ connectButton.onclick = async () => {
         try {
             const flashOptions = {
                 transport,
-                baudrate: parseInt(baudrates.value),
+                baudrate: parseInt(consoleBaudrates.value),
                 terminal: espLoaderTerminal,
             } as LoaderOptions;
             esploader = new ESPLoader(flashOptions);
