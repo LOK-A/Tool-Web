@@ -4,34 +4,29 @@
     "version": "0.9.0",
     "description": "Ferramentas para Chips da Espressif",
     "source": "src/index.html",
-    "license": "MIT",
+    "license": "ISC",
     "scripts": {
         "genDocs": "rimraf docs && typedoc && mkdir dist && copy docs dist",
         "dev": "npm run clean && npm run genDocs && parcel src/index.html",
         "build": "npm run clean && parcel build src/index.html --no-optimize --public-url ./",
         "clean": "rimraf dist .parcel-cache",
-        "compile": "tsc && node --trace-deprecation dist/src/app.js",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/LOK-A/Tool-Web.git"
-    },
-    "homepage": "http://lok-a.github.io/Tool-Web/src/index.html",
-    "dependencies": {
-        "esptool-js": "file:./esptool-js-0.4.0.tgz",
+    "parcelIgnore": [
+        "./docs/.+"
+    ],
+    "devDependencies": {
+        "esptool-js": "^0.4.5",
         "parcel": "^2.8.3",
         "parcel-resolver-ignore": "^2.1.5",
         "rimraf": "^4.1.2",
-        "tslib": "^2.6.3",
-        "typescript": "^4.9.4",
+        "typescript": "^5.0.2",
         "web-serial-polyfill": "^1.0.15"
     },
-    "overrides": {
-        "ajv": "^8.17.1",
-        "whatwg-url": "^14.0.0"
+    "dependencies": {
+        "typedoc": "^0.26.5"
     },
-    "bugs": {
-        "url": "https://github.com/LOK-A/Tool-Web/issues"
+    "directories": {
+        "doc": "docs"
     }
 }
