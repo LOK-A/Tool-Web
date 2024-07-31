@@ -131,21 +131,23 @@ connectButton.onclick = async () => {
 };
 
 resetButton.onclick = async () => {
-    if (device === null) { mLog("***Sem conexão***"); }
-    else {
-        classicReset(transport);
-        mLog("Resetando ESP...");
+    try {
+        await classicReset(transport, 100);
+        //mLog("Resetando ESP...");
+    } catch (e) {
+        //errorMsg(e);
     }
 };
 
 eraseButton.onclick = async () => {
-    if (device === null) { mLog("***Sem conexão***"); }
+    if (device === null) { //mLog("***Sem conexão***"); 
+    }
     else {
         eraseButton.disabled = true;
         try {
             await esploader.eraseFlash();
         } catch (e) {
-            mLog('Erro: ' + e);
+            // mLog('Erro: ' + e);
         } finally {
             eraseButton.disabled = false;
         }
@@ -231,15 +233,10 @@ function cleanUp() {
 let isConsoleClosed = false;
 
 consoleStartButton.onclick = async () => {
-
-    if (transport) {
-        log("007");
-    }
     if (device === null) {
         device = await navigator.serial.requestPort({});
         transport = new Transport(device, false);
     }
-
     await transport.connect(parseInt(consoleBaudrates.value));
     isConsoleClosed = false;
     mLog("Conectado");
@@ -303,7 +300,7 @@ function validateProgramInputs() {
     return "success";
 }
 
-programButton.onclick = async () => {
+/*programButton.onclick = async () => {
     const err = validateProgramInputs();
 
     if (err != "success") {
@@ -349,14 +346,73 @@ programButton.onclick = async () => {
         for (let index = 1; index < table.rows.length; index++) {
         }
     }
+};*/
+
+
+export type Partition = {
+    name: string;
+    data: Uint8Array;
+    offset: number;
+}
+
+/*
+programButton.onclick = async () => {
+
+    1500000 --flash_mode dio--flash_freq 80m--flash_size detect
+    0x1000 "../bin/bootloader_qio_80m.bin"
+    0x8000 "../bin/partitions.bin"
+    0xe000 "../bin/boot_app0.bin"
+    0x10000 "../bin/firmware.bin"
+    0x3B0000 "../bin/spiffs.img"
+
+    // TODO: Here you have to specify the partitions you want to flash to the ESP32.
+    const partitions: Partition[{ "bootloader_qio_80m.bin", 4096 }, { "partitions.bin", 32768}, { "boot_app0.bin", 57344}, { "firmware.bin", 65536}] =[];
+
+    await port.open({ baudRate: 115200 });
+    try {
+        const loader = new EspLoader(port, { debug: true, logger: console });
+        mLog("connecting...");
+        await loader.connect();
+        try {
+            mLoglog("connected");
+            mLoglog("writing device partitions");
+            const chipName = await loader.chipName();
+            const macAddr = await loader.macAddr();
+            await loader.loadStub();
+            await loader.setBaudRate(options.baudRate, 921600);
+
+
+            for (let i = 0; i < partitions.length; i++) {
+                options.logger.log("\nWriting partition: " + partitions[i].name);
+                await loader.flashData(partitions[i].data, partitions[i].offset, function (idx, cnt) {
+                    if (options.progressCallback) {
+                        options.progressCallback(partitions[i].name, idx, cnt);
+                    }
+                });
+                await sleep(100);
+            }
+            options.logger.log("successfully written device partitions");
+            options.logger.log("flashing succeeded");
+        } finally {
+            await loader.disconnect();
+        }
+    } finally {
+        await port.close();
+    }
 };
 
 //addFileButton.onclick(this);
-
+*/
 comando.onchange = async () => {
-    if (device === null) { mLog("***Sem conexão***"); }
+    if (device === null) {
+        mLog("***Sem conexão***");
+    }
     else {
         mLog(comando.value);
+        transport.write(comando.value);
+        espLoaderTerminal.writeLine(comando.value);
         comando.value = '';
     }
 };
+
+

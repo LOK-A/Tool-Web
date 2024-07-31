@@ -675,20 +675,21 @@ connectButton.onclick = async ()=>{
     }
 };
 resetButton.onclick = async ()=>{
-    if (device === null) mLog("***Sem conex\xe3o***");
-    else {
-        (0, _indexJs.classicReset)(transport);
-        mLog("Resetando ESP...");
+    try {
+        await (0, _indexJs.classicReset)(transport, 100);
+    //mLog("Resetando ESP...");
+    } catch (e) {
+    //errorMsg(e);
     }
 };
 eraseButton.onclick = async ()=>{
-    if (device === null) mLog("***Sem conex\xe3o***");
+    if (device === null) ;
     else {
         eraseButton.disabled = true;
         try {
             await esploader.eraseFlash();
         } catch (e) {
-            mLog("Erro: " + e);
+        // mLog('Erro: ' + e);
         } finally{
             eraseButton.disabled = false;
         }
@@ -761,7 +762,6 @@ function removeRow(row: HTMLTableRowElement) {
 }
 let isConsoleClosed = false;
 consoleStartButton.onclick = async ()=>{
-    if (transport) log("007");
     if (device === null) {
         device = await navigator.serial.requestPort({});
         transport = new (0, _indexJs.Transport)(device, false);
@@ -815,52 +815,59 @@ consoleStartButton.onclick = async ()=>{
     }
     return "success";
 }
-programButton.onclick = async ()=>{
-    const err = validateProgramInputs();
-    if (err != "success") {
-        const alertMsg = "<strong>" + err + "</strong>";
-        errorMsg(alertMsg);
-        return;
-    }
-    const fileArray = [];
-    const progressBars = [];
-    for(let index = 1; index < table.rows.length; index++){
-        const row = table.rows[index];
-        const offSetObj = row.cells[0].childNodes[0];
-        const offset = parseInt(offSetObj.value);
-        const fileObj = row.cells[1].childNodes[0];
-        const progressBar = row.cells[2].childNodes[0];
-        progressBar.textContent = "0";
-        progressBars.push(progressBar);
-        fileArray.push({
-            data: fileObj.data,
-            address: offset
-        });
-    }
+/*
+programButton.onclick = async () => {
+
+    1500000 --flash_mode dio--flash_freq 80m--flash_size detect
+    0x1000 "../bin/bootloader_qio_80m.bin"
+    0x8000 "../bin/partitions.bin"
+    0xe000 "../bin/boot_app0.bin"
+    0x10000 "../bin/firmware.bin"
+    0x3B0000 "../bin/spiffs.img"
+
+    // TODO: Here you have to specify the partitions you want to flash to the ESP32.
+    const partitions: Partition[{ "bootloader_qio_80m.bin", 4096 }, { "partitions.bin", 32768}, { "boot_app0.bin", 57344}, { "firmware.bin", 65536}] =[];
+
+    await port.open({ baudRate: 115200 });
     try {
-        const flashOptions = {
-            fileArray: fileArray,
-            flashSize: "keep",
-            eraseAll: false,
-            compress: true,
-            reportProgress: (fileIndex, written, total)=>{
-                progressBars[fileIndex].value = written / total * 100;
-            },
-            calculateMD5Hash: (image)=>CryptoJS.MD5(CryptoJS.enc.Latin1.parse(image))
-        };
-        await esploader.writeFlash(flashOptions);
-    } catch (e) {
-        mLog("ERRO:" + e);
-    } finally{
-        // Hide progress bars and show erase buttons
-        for(let index = 1; index < table.rows.length; index++);
+        const loader = new EspLoader(port, { debug: true, logger: console });
+        mLog("connecting...");
+        await loader.connect();
+        try {
+            mLoglog("connected");
+            mLoglog("writing device partitions");
+            const chipName = await loader.chipName();
+            const macAddr = await loader.macAddr();
+            await loader.loadStub();
+            await loader.setBaudRate(options.baudRate, 921600);
+
+
+            for (let i = 0; i < partitions.length; i++) {
+                options.logger.log("\nWriting partition: " + partitions[i].name);
+                await loader.flashData(partitions[i].data, partitions[i].offset, function (idx, cnt) {
+                    if (options.progressCallback) {
+                        options.progressCallback(partitions[i].name, idx, cnt);
+                    }
+                });
+                await sleep(100);
+            }
+            options.logger.log("successfully written device partitions");
+            options.logger.log("flashing succeeded");
+        } finally {
+            await loader.disconnect();
+        }
+    } finally {
+        await port.close();
     }
 };
+
 //addFileButton.onclick(this);
-comando.onchange = async ()=>{
+*/ comando.onchange = async ()=>{
     if (device === null) mLog("***Sem conex\xe3o***");
     else {
         mLog(comando.value);
+        transport.write(comando.value);
+        espLoaderTerminal.writeLine(comando.value);
         comando.value = "";
     }
 };
