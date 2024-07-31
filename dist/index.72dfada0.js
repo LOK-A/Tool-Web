@@ -9848,4 +9848,3 @@ const serial = new Serial();
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["6snCA","iycwR"], "iycwR", "parcelRequiree6cf")
 
 //# sourceMappingURL=index.72dfada0.js.map
-    
