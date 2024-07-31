@@ -32,8 +32,7 @@ jobs:
           npm install
       - name: Build project and copy docs
         run: |
-          npm genDocs
-          npm run dev
+          npm install
           npm run build
       - name: Setup Pages
         uses: actions/configure-pages@v5
