@@ -1,0 +1,356 @@
+@import "https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap";
+* {
+  margin: 0;
+  padding: 0;
+  font-family: Nanum Gothic, sans-serif;
+}
+
+body {
+  background: #000;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+}
+
+.titulo {
+  color: #fff;
+  text-shadow: 0 0 10px red;
+  margin: 15px;
+  font-size: calc(1em + .5vw);
+  font-weight: 800;
+}
+
+.main {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  height: 100%;
+  display: flex;
+}
+
+.menu {
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 0;
+  margin-bottom: 30px;
+  margin-right: 0;
+  padding: 0 15px;
+  display: flex;
+}
+
+.botoes {
+  color: #fff;
+  cursor: pointer;
+  text-align: center;
+  background-color: #000;
+  border: 1px solid #fff;
+  border-radius: 10px;
+  width: 10vw;
+  height: 145%;
+  font-size: 12px;
+}
+
+#baudRate option {
+  color: red;
+  background-color: #ffffff0d;
+  border: 1px solid #fff;
+}
+
+.botoes:hover {
+  border: 2px solid #fff;
+  transform: scale(1.05);
+}
+
+.botoes:active {
+  box-shadow: 0 0 20px #fff;
+}
+
+.log {
+  color: #fff;
+  word-break: break-all;
+  -ms-overflow-style: none;
+  background: #000;
+  border: 1px solid #fff;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  width: 100%;
+  height: 100%;
+  padding: 0 15px;
+  font-size: calc(.7em + .2vw);
+  font-style: normal;
+  font-weight: 400;
+  transition: all .5s;
+  display: block;
+  overflow-x: hidden;
+  box-shadow: 0 0 15px #fff;
+}
+
+.entrada {
+  scrollbar-width: none;
+  background: #000;
+  border: 1px solid #fff;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  width: 100%;
+  height: calc(2.5em + .3vh);
+  margin-top: 5px;
+  padding: 0 15px;
+  transition: all .5s;
+  display: flex;
+  overflow-x: hidden;
+  box-shadow: 0 0 15px #fff;
+  align-items: center !important;
+}
+
+.entrada > input {
+  color: #fff;
+  text-align: center;
+  background: #000;
+  border: 0;
+  width: 100%;
+}
+
+.entrada > input:focus {
+  color: #fff;
+  outline: none;
+}
+
+.rodape {
+  color: #fff;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 0 15px;
+  font-size: calc(.5em + .5vh);
+  display: flex;
+}
+
+.rodape > div {
+  width: 30vw;
+}
+
+.chipID {
+  text-align: left;
+  width: 30vw;
+}
+
+.autor {
+  text-align: center;
+  width: 30vw;
+}
+
+.logo {
+  text-align: right;
+  width: 30vw;
+  font-weight: 700;
+}
+
+.error-message {
+  color: red;
+}
+
+.xterm {
+  cursor: text;
+  -webkit-user-select: none;
+  user-select: none;
+  font-size: 10px;
+  position: relative;
+}
+
+.xterm.focus, .xterm:focus {
+  outline: none;
+}
+
+.xterm .xterm-helpers {
+  z-index: 5;
+  position: absolute;
+  top: 0;
+}
+
+.xterm .xterm-helper-textarea {
+  opacity: 0;
+  z-index: -5;
+  white-space: nowrap;
+  resize: none;
+  border: 0;
+  width: 0;
+  height: 0;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: 0;
+  left: -9999em;
+  overflow: hidden;
+}
+
+.xterm .composition-view {
+  color: #fff;
+  white-space: nowrap;
+  z-index: 1;
+  background: #000;
+  display: none;
+  position: absolute;
+}
+
+.xterm .composition-view.active {
+  display: block;
+}
+
+.xterm .xterm-viewport {
+  cursor: default;
+  scrollbar-width: none;
+  background-color: #000;
+  position: absolute;
+  inset: 0;
+  overflow-y: scroll;
+}
+
+.xterm .xterm-screen {
+  position: relative;
+}
+
+.xterm .xterm-screen canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.xterm .xterm-scroll-area {
+  visibility: hidden;
+}
+
+.xterm-char-measure-element {
+  visibility: hidden;
+  line-height: normal;
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: -9999em;
+}
+
+.xterm.enable-mouse-events {
+  cursor: default;
+}
+
+.xterm.xterm-cursor-pointer, .xterm .xterm-cursor-pointer {
+  cursor: pointer;
+}
+
+.xterm.column-select.focus {
+  cursor: crosshair;
+}
+
+.xterm .xterm-accessibility:not(.debug), .xterm .xterm-message {
+  z-index: 10;
+  color: #0000;
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+}
+
+.xterm .xterm-accessibility-tree:not(.debug) ::selection {
+  color: #0000;
+}
+
+.xterm .xterm-accessibility-tree {
+  -webkit-user-select: text;
+  user-select: text;
+  white-space: pre;
+}
+
+.xterm .live-region {
+  width: 1px;
+  height: 1px;
+  position: absolute;
+  left: -9999px;
+  overflow: hidden;
+}
+
+.xterm-dim {
+  opacity: 1 !important;
+}
+
+.xterm-underline-1 {
+  text-decoration: underline;
+}
+
+.xterm-underline-2 {
+  text-decoration: underline double;
+}
+
+.xterm-underline-3 {
+  text-decoration: underline wavy;
+}
+
+.xterm-underline-4 {
+  text-decoration: underline dotted;
+}
+
+.xterm-underline-5 {
+  text-decoration: underline dashed;
+}
+
+.xterm-overline {
+  text-decoration: overline;
+}
+
+.xterm-overline.xterm-underline-1 {
+  text-decoration: underline overline;
+}
+
+.xterm-overline.xterm-underline-2 {
+  -webkit-text-decoration: overline double underline;
+  text-decoration: overline double underline;
+}
+
+.xterm-overline.xterm-underline-3 {
+  -webkit-text-decoration: overline wavy underline;
+  text-decoration: overline wavy underline;
+}
+
+.xterm-overline.xterm-underline-4 {
+  -webkit-text-decoration: overline dotted underline;
+  text-decoration: overline dotted underline;
+}
+
+.xterm-overline.xterm-underline-5 {
+  -webkit-text-decoration: overline dashed underline;
+  text-decoration: overline dashed underline;
+}
+
+.xterm-strikethrough {
+  text-decoration: line-through;
+}
+
+.xterm-screen .xterm-decoration-container .xterm-decoration {
+  z-index: 6;
+  position: absolute;
+}
+
+.xterm-screen .xterm-decoration-container .xterm-decoration.xterm-decoration-top-layer {
+  z-index: 7;
+}
+
+.xterm-decoration-overview-ruler {
+  z-index: 8;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.xterm-decoration-top {
+  z-index: 2;
+  position: relative;
+}
+
+.xterm-rows > span {
+  line-height: 10px;
+}
+/*# sourceMappingURL=index.c40aa203.css.map */

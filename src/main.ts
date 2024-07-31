@@ -5,8 +5,8 @@ const resetButton = document.getElementById("botReset") as HTMLButtonElement;
 const eraseButton = document.getElementById("botApagar") as HTMLButtonElement;
 const consoleStartButton = document.getElementById("botStartTerminal") as HTMLButtonElement;
 const programButton = document.getElementById("botUpload") as HTMLButtonElement;
+const comando = document.getElementById("entradaComando") as HTMLInputElement;
 const terminal = document.getElementById("monitor");
-const addFileButton = document.getElementById("addFile") as HTMLButtonElement;
 const chipID = document.getElementById("chipID");
 
 const table = document.getElementById("fileTable") as HTMLTableElement;
@@ -28,17 +28,33 @@ import {
 import { serial } from "web-serial-polyfill";
 if (!navigator.serial && navigator.usb) navigator.serial = serial;
 
-declare let Terminal; // Terminal is imported in HTML script
+//declare let Terminal; // Terminal is imported in HTML script
 declare let CryptoJS; // CryptoJS is imported in HTML script
 
-const term = new Terminal({ cols: 160, rows: 40 });
+import { Terminal } from '@xterm/xterm';
+import { FitAddon } from '@xterm/addon-fit';
+
+const term = new Terminal();
+const fitAddon = new FitAddon();
+
+term.loadAddon(fitAddon);
+term.options = {
+    fontSize: 11,
+    fontFamily: 'Nanum Gothic',
+    letterSpacing: -4,
+    lineHeight: 1.4,
+}
+
 term.open(terminal);
+fitAddon.fit();
+mLog('Terminal iniciado...');
+term.writeln('');
+
 
 let device = null;
 let transport: Transport;
 let chip: string = null;
 let esploader: ESPLoader;
-
 
 /**
  * The built in Event object.
@@ -50,6 +66,10 @@ let esploader: ESPLoader;
  * File reader handler to read given local file.
  * @param {Event} evt File Select event
  */
+function mLog(text) {
+    term.writeln(text);
+}
+
 function handleFileSelect(evt) {
     const file = evt.target.files[0];
 
@@ -76,59 +96,59 @@ const espLoaderTerminal = {
     },
 };
 
-function errorMsg(text) {
-    term.writeln('<span class="error-message">Erro:</span> ' + text);
-    console.error(text);
-}
-
 connectButton.onclick = async () => {
     if (device === null) {
-        device = await navigator.serial.requestPort({});
-        transport = new Transport(device, true);
+        {
+            device = await navigator.serial.requestPort({});
+            transport = new Transport(device, true);
+        }
+        try {
+            const flashOptions = {
+                transport,
+                baudrate: parseInt(consoleBaudrates.value),
+                terminal: espLoaderTerminal,
+            } as LoaderOptions;
+            esploader = new ESPLoader(flashOptions);
+
+            chip = await esploader.main();
+
+            // Temporarily broken
+            // await esploader.flashId();
+        } catch (e) {
+            mLog('Erro: ' + e);
+        }
+        connectButton.value = 'Desconectar';
+        mLog("Configurações finalizadas em " + chip);
+        chipID.innerHTML = "Conectado a " + chip;
+
     }
-
-    try {
-        const flashOptions = {
-            transport,
-            baudrate: parseInt(consoleBaudrates.value),
-            terminal: espLoaderTerminal,
-        } as LoaderOptions;
-        esploader = new ESPLoader(flashOptions);
-
-        chip = await esploader.main();
-
-        // Temporarily broken
-        // await esploader.flashId();
-    } catch (e) {
-        errorMsg(e);
+    else {
+        if (transport) await transport.disconnect();
+        connectButton.value = 'Conectar ESP';
+        cleanUp();
+        mLog('Desconectado do ESP...');
     }
-
-    console.log("Configurações finalizadas no " + chip);
-    chipID.innerHTML = "Conectado a " + chip;
 };
 
-//traceButton.onclick = async () => {
-//    if (transport) {
-//        transport.returnTrace();
-//    }
-//};
-
 resetButton.onclick = async () => {
-    if (transport) {
-        await transport.setDTR(false);
-        await new Promise((resolve) => setTimeout(resolve, 100));
-        await transport.setDTR(true);
+    if (device === null) { mLog("***Sem conexão***"); }
+    else {
+        classicReset(transport);
+        mLog("Resetando ESP...");
     }
 };
 
 eraseButton.onclick = async () => {
-    eraseButton.disabled = true;
-    try {
-        await esploader.eraseFlash();
-    } catch (e) {
-        errorMsg(e);
-    } finally {
-        eraseButton.disabled = false;
+    if (device === null) { mLog("***Sem conexão***"); }
+    else {
+        eraseButton.disabled = true;
+        try {
+            await esploader.eraseFlash();
+        } catch (e) {
+            mLog('Erro: ' + e);
+        } finally {
+            eraseButton.disabled = false;
+        }
     }
 };
 
@@ -136,6 +156,7 @@ clearButton.onclick = async () => {
     term.reset();
 };
 
+/*
 addFileButton.onclick = () => {
     const rowCount = table.rows.length;
     const row = table.insertRow(rowCount);
@@ -178,6 +199,7 @@ addFileButton.onclick = () => {
         cell4.appendChild(element4);
     }
 };
+*/
 
 /**
  * The built in HTMLTableRowElement object.
@@ -189,43 +211,52 @@ addFileButton.onclick = () => {
  * Remove file row from HTML Table
  * @param {HTMLTableRowElement} row Table row element to remove
  */
+
+/*
 function removeRow(row: HTMLTableRowElement) {
     const rowIndex = Array.from(table.rows).indexOf(row);
     table.deleteRow(rowIndex);
 }
+*/
 
 /**
  * Clean devices variables on chip disconnect. Remove stale references if any.
  */
-//function cleanUp() {
-//    device = null;
-//    transport = null;
-//    chip = null;
-//}
-
-//disconnectButton.onclick = async () => {
-//    if (transport) await transport.disconnect();
-//    term.reset();
-//    cleanUp();
-//};
+function cleanUp() {
+    device = null;
+    transport = null;
+    chip = null;
+}
 
 let isConsoleClosed = false;
+
 consoleStartButton.onclick = async () => {
+
+    if (transport) {
+        log("007");
+    }
     if (device === null) {
         device = await navigator.serial.requestPort({});
-        transport = new Transport(device, true);
+        transport = new Transport(device, false);
     }
 
     await transport.connect(parseInt(consoleBaudrates.value));
     isConsoleClosed = false;
+    mLog("Conectado");
 
     while (true && !isConsoleClosed) {
+        connectButton.value = 'Desconectar';
         const val = await transport.rawRead();
         if (typeof val !== "undefined") {
             term.write(val);
         } else {
             break;
         }
+    }
+
+    if (device === null) {
+        mLog("Desconectado");
+        connectButton.value = 'Conectar ESP';
     }
     console.log("quitting console");
 };
@@ -312,7 +343,7 @@ programButton.onclick = async () => {
         } as FlashOptions;
         await esploader.writeFlash(flashOptions);
     } catch (e) {
-        errorMsg(e);
+        mLog('ERRO:' + e);
     } finally {
         // Hide progress bars and show erase buttons
         for (let index = 1; index < table.rows.length; index++) {
@@ -320,4 +351,12 @@ programButton.onclick = async () => {
     }
 };
 
-addFileButton.onclick(this);
+//addFileButton.onclick(this);
+
+comando.onchange = async () => {
+    if (device === null) { mLog("***Sem conexão***"); }
+    else {
+        mLog(comando.value);
+        comando.value = '';
+    }
+};

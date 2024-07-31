@@ -7,7 +7,7 @@
     "license": "ISC",
     "scripts": {
         "genDocs": "rimraf docs && typedoc && mkdir dist && copy docs dist",
-        "dev": "npm run genDocs && parcel src/index.html",
+        "dev": "npm run clean && npm run genDocs && parcel src/index.html",
         "build": "parcel build src/index.html --no-optimize --public-url ./",
         "clean": "rimraf dist .parcel-cache",
         "test": "echo \"Error: no test specified\" && exit 1"
@@ -16,17 +16,16 @@
         "./docs/.+"
     ],
     "devDependencies": {
+        "@xterm/addon-fit": "^0.10.0",
+        "@xterm/addon-web-links": "^0.11.0",
+        "@xterm/xterm": "^5.3.0",
+        "bootstrap": "^5.3.3",
         "esptool-js": "^0.4.5",
         "parcel": "^2.8.3",
-        "parcel-resolver-ignore": "^2.1.5",
+        "process": "^0.11.10",
         "rimraf": "^4.1.2",
+        "typedoc": "^0.26.5",
         "typescript": "^5.0.2",
         "web-serial-polyfill": "^1.0.15"
-    },
-    "dependencies": {
-        "typedoc": "^0.26.5"
-    },
-    "directories": {
-        "doc": "docs"
     }
 }
