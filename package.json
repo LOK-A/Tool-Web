@@ -6,17 +6,18 @@
     "source": "src/index.html",
     "license": "MIT",
     "scripts": {
-        "genDocs": "cd ../.. && npm run genDocs && mkdir -p dist && cp -r docs dist",
+        "genDocs": "rimraf docs && typedoc && mkdir dist && copy docs dist",
         "dev": "npm run clean && npm run genDocs && parcel src/index.html",
         "build": "npm run clean && parcel build src/index.html --no-optimize --public-url ./",
         "clean": "rimraf dist .parcel-cache",
+        "compile": "tsc && node --trace-deprecation dist/src/app.js",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": {
         "type": "git",
         "url": "git+https://github.com/LOK-A/Tool-Web.git"
     },
-    "homepage": "http://lok-a.github.io/Tool-Web",
+    "homepage": "http://lok-a.github.io/Tool-Web/src/index.html",
     "dependencies": {
         "esptool-js": "file:./esptool-js-0.4.0.tgz",
         "parcel": "^2.8.3",
@@ -25,6 +26,10 @@
         "tslib": "^2.6.3",
         "typescript": "^4.9.4",
         "web-serial-polyfill": "^1.0.15"
+    },
+    "overrides": {
+        "ajv": "^8.17.1",
+        "whatwg-url": "^14.0.0"
     },
     "bugs": {
         "url": "https://github.com/LOK-A/Tool-Web/issues"
